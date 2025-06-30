@@ -1,7 +1,9 @@
-import { System } from '../core/ecs.js';
+import { System, ComponentTypes } from '../core/ecs.js';
 import { EventTypes } from '../core/events.js';
 import { BlockFactory } from '../entities/block.js';
 import { ProjectileFactory } from '../entities/projectile.js';
+import { VehicleFactory } from '../entities/vehicle.js';
+import { RobotMouseFactory } from '../entities/robot-mouse.js';
 
 export class GameSystem extends System {
     constructor(physicsSystem, renderer, eventBus) {
@@ -12,6 +14,8 @@ export class GameSystem extends System {
         
         this.blockFactory = new BlockFactory(null, physicsSystem);
         this.projectileFactory = new ProjectileFactory(null, physicsSystem);
+        this.vehicleFactory = new VehicleFactory(null, physicsSystem);
+        this.robotMouseFactory = new RobotMouseFactory(null, physicsSystem);
         
         this.dragPreview = null;
         this.setupEventListeners();
@@ -26,6 +30,8 @@ export class GameSystem extends System {
     update(deltaTime) {
         this.blockFactory.ecs = this.ecs;
         this.projectileFactory.ecs = this.ecs;
+        this.vehicleFactory.ecs = this.ecs;
+        this.robotMouseFactory.ecs = this.ecs;
         
         if (this.dragPreview && this.dragPreview.tool === 'projectile') {
             this.renderTrajectoryPreview();
@@ -35,6 +41,10 @@ export class GameSystem extends System {
     handleClick(data) {
         if (data.tool === 'block') {
             this.createBlock(data.x, data.y, data.material);
+        } else if (data.tool === 'vehicle') {
+            this.createVehicle(data.x, data.y, data.material);
+        } else if (data.tool === 'robot') {
+            this.createRobotMouse(data.x, data.y);
         } else if (data.tool === 'projectile') {
             this.dragPreview = {
                 tool: 'projectile',
@@ -66,6 +76,31 @@ export class GameSystem extends System {
         }
         
         this.blockFactory.create(x, y, blockSize, blockSize, material);
+    }
+
+    createVehicle(x, y, material) {
+        // Ensure vehicle is placed on ground
+        if (y > window.innerHeight * 0.7 - 60) {
+            y = window.innerHeight * 0.7 - 60;
+        }
+        
+        this.vehicleFactory.createSimpleCar(x, y, material);
+    }
+
+    createRobotMouse(x, y) {
+        // Check if we already have too many robots
+        const existingRobots = this.ecs.getEntitiesWithComponents(ComponentTypes.AI);
+        if (existingRobots.length >= 5) {
+            console.log('Maximum number of robots (5) reached');
+            return;
+        }
+        
+        // Ensure robot is placed above ground
+        if (y > window.innerHeight * 0.7 - 20) {
+            y = window.innerHeight * 0.7 - 20;
+        }
+        
+        this.robotMouseFactory.create(x, y);
     }
 
     launchProjectile(start, end, material) {

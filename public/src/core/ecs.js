@@ -94,5 +94,8 @@ export const ComponentTypes = {
     PHYSICS: 'physics',
     RENDERABLE: 'renderable',
     INPUT: 'input',
-    LIFETIME: 'lifetime'
+    LIFETIME: 'lifetime',
+    VEHICLE: 'vehicle',
+    MAZE_ELEMENT: 'maze_element',
+    AI: 'ai'
 };

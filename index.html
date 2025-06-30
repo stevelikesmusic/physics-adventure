@@ -13,6 +13,9 @@
             <div id="toolbar">
                 <button id="block-tool" class="tool-btn active">Block</button>
                 <button id="projectile-tool" class="tool-btn">Ball</button>
+                <button id="vehicle-tool" class="tool-btn">Car</button>
+                <button id="maze-tool" class="tool-btn">Maze</button>
+                <button id="robot-tool" class="tool-btn">Robot</button>
                 <div id="material-selector">
                     <select id="material-select">
                         <option value="wood">Wood</option>
@@ -20,9 +23,17 @@
                         <option value="metal">Metal</option>
                     </select>
                 </div>
+                <div id="maze-controls" style="display: none;">
+                    <button id="preset-simple-maze">Simple Maze</button>
+                    <button id="preset-l-maze">L-Maze</button>
+                    <button id="clear-maze">Clear Maze</button>
+                </div>
             </div>
             <div id="info-panel">
-                <p>Click to place blocks, drag to launch projectiles</p>
+                <p>Click to place blocks/cars/walls/robots, drag to launch projectiles or move objects</p>
+                <p>Use Arrow Keys or WASD to drive cars</p>
+                <p>Maze tool: Click to add/remove walls, use presets for quick mazes</p>
+                <p>Robot mice: Navigate automatically using A* pathfinding</p>
             </div>
         </div>
     </div>

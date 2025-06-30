@@ -86,3 +86,24 @@ body {
     margin: 0;
     font-size: 14px;
 }
+
+#maze-controls {
+    display: flex;
+    gap: 5px;
+    margin-left: 10px;
+    pointer-events: auto;
+}
+
+#maze-controls button {
+    padding: 8px 12px;
+    background: #555;
+    color: white;
+    border: 1px solid #777;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#maze-controls button:hover {
+    background: #666;
+}

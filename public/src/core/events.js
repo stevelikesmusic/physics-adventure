@@ -39,5 +39,8 @@ export const EventTypes = {
     COLLISION: 'collision',
     INPUT_CLICK: 'input_click',
     INPUT_DRAG: 'input_drag',
-    TOOL_CHANGED: 'tool_changed'
+    TOOL_CHANGED: 'tool_changed',
+    DRAG_START: 'drag_start',
+    DRAG_MOVE: 'drag_move',
+    DRAG_END: 'drag_end'
 };

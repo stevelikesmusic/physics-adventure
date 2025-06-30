@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #1a1a1a;
+    color: white;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+#game-canvas {
+    display: block;
+    background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #8B4513 70%, #8B4513 100%);
+    cursor: crosshair;
+}
+
+#ui-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+#toolbar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.tool-btn {
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border: 2px solid #555;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tool-btn:hover {
+    background: #444;
+    border-color: #777;
+}
+
+.tool-btn.active {
+    background: #007acc;
+    border-color: #0099ff;
+}
+
+#material-selector {
+    pointer-events: auto;
+}
+
+#material-select {
+    padding: 8px;
+    background: #333;
+    color: white;
+    border: 2px solid #555;
+    border-radius: 5px;
+}
+
+#info-panel {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 5px;
+    pointer-events: auto;
+}
+
+#info-panel p {
+    margin: 0;
+    font-size: 14px;
+}

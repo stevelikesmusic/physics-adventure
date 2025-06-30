@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Adventure Sandbox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div id="ui-container">
+            <div id="toolbar">
+                <button id="block-tool" class="tool-btn active">Block</button>
+                <button id="projectile-tool" class="tool-btn">Ball</button>
+                <div id="material-selector">
+                    <select id="material-select">
+                        <option value="wood">Wood</option>
+                        <option value="stone">Stone</option>
+                        <option value="metal">Metal</option>
+                    </select>
+                </div>
+            </div>
+            <div id="info-panel">
+                <p>Click to place blocks, drag to launch projectiles</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+    <script src="src/main.js" type="module"></script>
+</body>
+</html>

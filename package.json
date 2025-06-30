@@ -1,14 +1,25 @@
 {
   "name": "physics-adventure",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "serve public -l 3000",
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "test": "jest",
+    "lint": "eslint src/**/*.js"
   },
   "author": "August Gardner",
   "license": "ISC",
-  "description": "",
+  "description": "2D Physics Adventure Sandbox Game",
   "dependencies": {
+    "matter-js": "^0.19.0",
     "serve": "^14.2.4"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0",
+    "eslint": "^8.45.0",
+    "jest": "^29.6.0"
   }
 }

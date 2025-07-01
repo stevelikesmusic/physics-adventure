@@ -2,6 +2,8 @@ import { System } from '../core/ecs.js';
 import { EventTypes } from '../core/events.js';
 import { BlockFactory } from '../entities/block.js';
 import { ProjectileFactory } from '../entities/projectile.js';
+import { RobotFactory } from '../entities/robot.js';
+import { DotFactory } from '../entities/dot.js';
 
 export class GameSystem extends System {
     constructor(physicsSystem, renderer, eventBus) {
@@ -12,6 +14,8 @@ export class GameSystem extends System {
         
         this.blockFactory = new BlockFactory(null, physicsSystem);
         this.projectileFactory = new ProjectileFactory(null, physicsSystem);
+        this.robotFactory = new RobotFactory(null);
+        this.dotFactory = new DotFactory(null);
         
         this.dragPreview = null;
         this.setupEventListeners();
@@ -26,6 +30,8 @@ export class GameSystem extends System {
     update(deltaTime) {
         this.blockFactory.ecs = this.ecs;
         this.projectileFactory.ecs = this.ecs;
+        this.robotFactory.ecs = this.ecs;
+        this.dotFactory.ecs = this.ecs;
         
         if (this.dragPreview && this.dragPreview.tool === 'projectile') {
             this.renderTrajectoryPreview();
@@ -42,6 +48,10 @@ export class GameSystem extends System {
                 current: { x: data.x, y: data.y },
                 material: data.material
             };
+        } else if (data.tool === 'robot') {
+            this.robotFactory.create(data.x, data.y);
+        } else if (data.tool === 'dot') {
+            this.dotFactory.create(data.x, data.y);
         }
     }
 

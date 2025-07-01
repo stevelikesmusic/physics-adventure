@@ -46,6 +46,21 @@ export class RenderSystem extends System {
                     renderable.color
                 );
                 break;
+            case 'dot':
+                this.renderer.drawDot(
+                    transform.x,
+                    transform.y,
+                    renderable.radius,
+                    renderable.color
+                );
+                break;
+            case 'robot':
+                this.renderer.drawRobot(
+                    transform.x,
+                    transform.y,
+                    renderable
+                );
+                break;
             case 'sprite':
                 break;
             default:

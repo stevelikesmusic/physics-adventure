@@ -59,6 +59,41 @@ export class CanvasRenderer {
         this.ctx.restore();
     }
 
+    /** Draw a simple yellow waypoint dot */
+    drawDot(x, y, radius, color = '#FFD800') {
+        this.drawCircle(x, y, radius, color);
+    }
+
+    /**
+     * Render a robot composed of a body, wheels and a head with eyes.
+     * @param {number} x center x
+     * @param {number} y center y (at bottom of torso)
+     * @param {object} options rendering sizes
+     */
+    drawRobot(x, y, options) {
+        const { bodyWidth, bodyHeight, wheelRadius, headRadius } = options;
+
+        // draw wheels
+        const halfBody = bodyWidth / 2;
+        const wheelY = y + wheelRadius;
+        this.drawCircle(x - halfBody + wheelRadius, wheelY, wheelRadius, '#555');
+        this.drawCircle(x + halfBody - wheelRadius, wheelY, wheelRadius, '#555');
+
+        // draw body
+        this.drawRect(x, y - bodyHeight / 2, bodyWidth, bodyHeight, '#AAA');
+
+        // draw head
+        const headY = y - bodyHeight - headRadius;
+        this.drawCircle(x, headY, headRadius, '#CCC');
+
+        // eyes
+        const eyeOffsetX = headRadius * 0.4;
+        const eyeOffsetY = headRadius * -0.2;
+        const eyeRadius = headRadius * 0.2;
+        this.drawCircle(x - eyeOffsetX, headY + eyeOffsetY, eyeRadius, '#00AEEF');
+        this.drawCircle(x + eyeOffsetX, headY + eyeOffsetY, eyeRadius, '#00AEEF');
+    }
+
     drawText(text, x, y, options = {}) {
         this.ctx.save();
         this.ctx.fillStyle = options.color || '#fff';

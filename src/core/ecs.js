@@ -94,5 +94,7 @@ export const ComponentTypes = {
     PHYSICS: 'physics',
     RENDERABLE: 'renderable',
     INPUT: 'input',
-    LIFETIME: 'lifetime'
+    LIFETIME: 'lifetime',
+    ROBOT: 'robot',
+    DOT: 'dot'
 };

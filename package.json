@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "dev": "serve public -l 3000",
+    "dev": "serve -l 3000",
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "test": "jest",

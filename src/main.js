@@ -67,7 +67,7 @@ class PhysicsAdventure {
 
     setupEventListeners() {
         this.gameEngine.eventBus.on('collision', (data) => {
-            console.log('Collision detected between:', data.bodyA.label, 'and', data.bodyB.label);
+            console.debug('Collision detected between:', data.bodyA.label, 'and', data.bodyB.label);
         });
 
         window.addEventListener('beforeunload', () => {

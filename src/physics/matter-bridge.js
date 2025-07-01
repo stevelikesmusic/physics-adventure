@@ -92,8 +92,8 @@ export class PhysicsEngine {
             },
             metal: {
                 density: 0.005,
-                friction: 0.7,
-                restitution: 0.5,
+                friction: 1.0,
+                restitution: 0.2,
                 color: '#C0C0C0'
             }
         };
@@ -144,18 +144,24 @@ export class PhysicsEngine {
         World.remove(this.world, constraint);
     }
 
-    createWheelConstraint(chassisBody, wheelBody, position) {
+    createWheelConstraint(chassisBody, wheelBody, offset) {
+        // Create a pin constraint for stable wheel attachment
         const constraint = Constraint.create({
             bodyA: chassisBody,
             bodyB: wheelBody,
-            pointA: { x: position.x - chassisBody.position.x, y: position.y - chassisBody.position.y },
-            pointB: { x: 0, y: 0 },
-            stiffness: 0.8,
-            damping: 0.1,
-            length: 0
+            pointA: { x: offset.x, y: offset.y },  // Relative offset from chassis center
+            pointB: { x: 0, y: 0 },              // Center of wheel
+            stiffness: 1.0,                      // Increased stiffness for stability
+            damping: 0.2,                        // Increased damping to reduce oscillation
+            length: 0                            // No length - pin joint
         });
         
         World.add(this.world, constraint);
+        console.log('Created wheel constraint:', {
+            chassisPos: chassisBody.position,
+            wheelPos: wheelBody.position,
+            offset: offset
+        });
         return constraint;
     }
 }

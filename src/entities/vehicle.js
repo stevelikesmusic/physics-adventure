@@ -10,16 +10,16 @@ export class VehicleFactory {
     createSimpleCar(x, y, material = 'wood') {
         const vehicleId = this.ecs.createEntity();
         
-        // Create chassis (main body)
-        const chassisId = this.createChassis(x, y, 80, 30, material);
+        // Create chassis (main body) - wider and lower for stability
+        const chassisId = this.createChassis(x, y, 100, 25, material);
         
-        // Create wheels
-        const frontWheelId = this.createWheel(x + 25, y + 20, 15, 'metal');
-        const rearWheelId = this.createWheel(x - 25, y + 20, 15, 'metal');
+        // Create wheels - positioned below chassis
+        const frontWheelId = this.createWheel(x + 35, y + 25, 18, 'metal');
+        const rearWheelId = this.createWheel(x - 35, y + 25, 18, 'metal');
         
-        // Connect wheels to chassis with joints
-        const frontJoint = this.createWheelJoint(chassisId, frontWheelId, x + 25, y + 20);
-        const rearJoint = this.createWheelJoint(chassisId, rearWheelId, x - 25, y + 20);
+        // Connect wheels to chassis with joints (using relative offsets)
+        const frontJoint = this.createWheelJoint(chassisId, frontWheelId, 35, 25);
+        const rearJoint = this.createWheelJoint(chassisId, rearWheelId, -35, 25);
         
         // Store vehicle components
         this.vehicleComponents.set(vehicleId, {
@@ -36,6 +36,23 @@ export class VehicleFactory {
             speed: 0,
             maxSpeed: 200,
             acceleration: 100
+        });
+        
+        console.log('Created vehicle with parts:', {
+            vehicleId,
+            chassisId,
+            frontWheelId,
+            rearWheelId,
+            frontJoint: frontJoint ? 'created' : 'failed',
+            rearJoint: rearJoint ? 'created' : 'failed'
+        });
+        
+        // Check if both wheels have physics bodies
+        const frontPhysics = this.ecs.getComponent(frontWheelId, ComponentTypes.PHYSICS);
+        const rearPhysics = this.ecs.getComponent(rearWheelId, ComponentTypes.PHYSICS);
+        console.log('Wheel physics:', {
+            frontWheel: { id: frontWheelId, hasBody: !!frontPhysics?.body, type: frontPhysics?.type },
+            rearWheel: { id: rearWheelId, hasBody: !!rearPhysics?.body, type: rearPhysics?.type }
         });
         
         return vehicleId;
@@ -111,7 +128,7 @@ export class VehicleFactory {
         return entityId;
     }
 
-    createWheelJoint(chassisId, wheelId, x, y) {
+    createWheelJoint(chassisId, wheelId, offsetX, offsetY) {
         const chassisPhysics = this.ecs.getComponent(chassisId, ComponentTypes.PHYSICS);
         const wheelPhysics = this.ecs.getComponent(wheelId, ComponentTypes.PHYSICS);
         
@@ -123,7 +140,7 @@ export class VehicleFactory {
         const constraint = this.physicsSystem.physicsEngine.createWheelConstraint(
             chassisPhysics.body,
             wheelPhysics.body,
-            { x: x, y: y }
+            { x: offsetX, y: offsetY }  // Pass relative offset directly
         );
 
         return constraint;
@@ -153,10 +170,13 @@ export class VehicleFactory {
             }
         });
 
-        // Remove all parts
-        components.parts.forEach(partId => {
-            this.physicsSystem.removePhysicsBody(partId);
-            this.ecs.removeEntity(partId);
+        // Remove chassis and wheels
+        this.physicsSystem.removePhysicsBody(components.chassis);
+        this.ecs.removeEntity(components.chassis);
+        
+        components.wheels.forEach(wheelId => {
+            this.physicsSystem.removePhysicsBody(wheelId);
+            this.ecs.removeEntity(wheelId);
         });
 
         // Remove main vehicle entity

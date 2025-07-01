@@ -79,12 +79,20 @@ export class GameSystem extends System {
     }
 
     createVehicle(x, y, material) {
+        // Remove existing vehicles (only one car at a time)
+        const existingVehicles = this.ecs.getEntitiesWithComponents(ComponentTypes.VEHICLE);
+        existingVehicles.forEach(vehicleId => {
+            this.vehicleFactory.destroyVehicle(vehicleId);
+        });
+        
         // Ensure vehicle is placed on ground
         if (y > window.innerHeight * 0.7 - 60) {
             y = window.innerHeight * 0.7 - 60;
         }
         
-        this.vehicleFactory.createSimpleCar(x, y, material);
+        const vehicleId = this.vehicleFactory.createSimpleCar(x, y, material);
+        console.log('Created new vehicle:', vehicleId);
+        return vehicleId;
     }
 
     createRobotMouse(x, y) {

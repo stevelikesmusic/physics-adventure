@@ -60,7 +60,7 @@ export class PhysicsSystem extends System {
 
         const physics = this.ecs.getComponent(entityId, ComponentTypes.PHYSICS);
         physics.body = body;
-        physics.type = type;
+        physics.bodyType = type;  // Store body type separately, keep original type
 
         this.bodyToEntity.set(body.id, entityId);
         this.entityToBody.set(entityId, body);

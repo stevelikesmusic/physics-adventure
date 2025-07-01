@@ -29,6 +29,10 @@ export class InputSystem extends System {
         
         document.getElementById('block-tool').addEventListener('click', () => this.setTool('block'));
         document.getElementById('projectile-tool').addEventListener('click', () => this.setTool('projectile'));
+        const dotBtn = document.getElementById('dot-tool');
+        if (dotBtn) dotBtn.addEventListener('click', () => this.setTool('dot'));
+        const robotBtn = document.getElementById('robot-tool');
+        if (robotBtn) robotBtn.addEventListener('click', () => this.setTool('robot'));
         document.getElementById('material-select').addEventListener('change', (e) => {
             this.currentMaterial = e.target.value;
         });

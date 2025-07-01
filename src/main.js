@@ -6,6 +6,7 @@ import { RenderSystem } from './systems/render-system.js';
 import { InputSystem } from './systems/input-system.js';
 import { GameSystem } from './systems/game-system.js';
 import { LifetimeSystem } from './systems/lifetime-system.js';
+import { RobotSystem } from './systems/robot-system.js';
 
 class PhysicsAdventure {
     constructor() {
@@ -28,10 +29,12 @@ class PhysicsAdventure {
         this.inputSystem = new InputSystem(this.canvas, this.gameEngine.eventBus);
         this.gameSystem = new GameSystem(this.physicsSystem, this.renderer, this.gameEngine.eventBus);
         this.lifetimeSystem = new LifetimeSystem(this.physicsSystem);
+        this.robotSystem = new RobotSystem();
         
         this.gameEngine.ecs.addSystem(this.physicsSystem);
         this.gameEngine.ecs.addSystem(this.renderSystem);
         this.gameEngine.ecs.addSystem(this.gameSystem);
+        this.gameEngine.ecs.addSystem(this.robotSystem);
         this.gameEngine.ecs.addSystem(this.lifetimeSystem);
         
         this.setupEventListeners();
@@ -60,6 +63,12 @@ class PhysicsAdventure {
                     break;
                 case '2':
                     this.inputSystem.setTool('projectile');
+                    break;
+                case '3':
+                    this.inputSystem.setTool('dot');
+                    break;
+                case '4':
+                    this.inputSystem.setTool('robot');
                     break;
                 case 'r':
                     this.resetGame();
